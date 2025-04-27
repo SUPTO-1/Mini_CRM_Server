@@ -24,6 +24,7 @@ model User {
   createdAt DateTime @default(now())
   projects Project[]
   interactions Interaction[]
+  reminders Reminder[]
 }
 
 model Client {
@@ -37,6 +38,7 @@ model Client {
   userId    Int
   projects Project[]
   interactions Interaction[]
+  reminders Reminder[]
 }
 
 model Project {
@@ -51,6 +53,7 @@ model Project {
   user   User   @relation(fields: [userId], references: [id])
   client Client @relation(fields: [clientId], references: [id])
   interactions Interaction[]
+  reminders Reminder[]
 }
 
 enum InteractionType {
@@ -65,6 +68,26 @@ model Interaction {
   type        InteractionType
   notes       String
   createdAt   DateTime        @default(now())
+  userId      Int
+  clientId    Int?
+  projectId   Int?
+  
+  user      User     @relation(fields: [userId], references: [id])
+  client    Client?  @relation(fields: [clientId], references: [id])
+  project   Project? @relation(fields: [projectId], references: [id])
+}
+enum ReminderStatus {
+  PENDING
+  COMPLETED
+}
+
+model Reminder {
+  id          Int       @id @default(autoincrement())
+  title       String
+  dueDate     DateTime
+  notes       String?
+  status      ReminderStatus @default(PENDING)
+  createdAt   DateTime  @default(now())
   userId      Int
   clientId    Int?
   projectId   Int?

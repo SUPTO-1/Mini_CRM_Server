@@ -6,7 +6,7 @@ const {AuthenticationToken} = require("./AuthenticationToken");
 const {addClient,getClients,listClients,deleteClient, updateClient, getSingleClient} = require("./Clients");
 const {addProject, getProjectsCount, listProjects, deleteProject, updateProject} = require("./Projects");
 const { addInteraction, getInteractions, deleteInteraction, getInteractionsCount } = require("./Interactions");
-
+const { addReminder, getWeeklyReminders } = require("./Reminders");
 dotenv.config();
 
 const app = express();
@@ -37,6 +37,11 @@ app.post("/interactions", AuthenticationToken, addInteraction);
 app.get("/interactions", AuthenticationToken, getInteractions);
 app.delete('/interactions/:id', AuthenticationToken, deleteInteraction);
 app.get("/interactions/count", AuthenticationToken, getInteractionsCount);
+
+
+//Reminders
+app.post("/reminders", AuthenticationToken, addReminder);
+app.get("/reminders/weekly", AuthenticationToken, getWeeklyReminders);
 
 
 const PORT = process.env.PORT || 5000;
