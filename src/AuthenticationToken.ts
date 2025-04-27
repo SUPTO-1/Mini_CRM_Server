@@ -2,6 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+interface AuthenticatedRequest extends Request {
+  user?: {
+    id: number;
+    email: string;
+    name: string;
+  };
+}
 
 export const AuthenticationToken = async (
   req: Request,
@@ -16,9 +23,8 @@ export const AuthenticationToken = async (
         message: "Authentication failed - No token provided",
       });
     }
-
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-      userId: string;
+      userId: number;
     };
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
@@ -31,8 +37,7 @@ export const AuthenticationToken = async (
         message: "Authentication failed - User not found",
       });
     }
-
-    req.user = user;
+    (req as AuthenticatedRequest).user = user;
     next();
   } catch (err) {
     console.error("Authentication error:", err);
