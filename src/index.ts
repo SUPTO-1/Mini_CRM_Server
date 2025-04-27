@@ -5,6 +5,8 @@ const { signup, login} = require("./Authentication");
 const {AuthenticationToken} = require("./AuthenticationToken");
 const {addClient,getClients,listClients,deleteClient, updateClient, getSingleClient} = require("./Clients");
 const {addProject, getProjectsCount, listProjects, deleteProject, updateProject} = require("./Projects");
+const { addInteraction, getInteractions, deleteInteraction, getInteractionsCount } = require("./Interactions");
+
 dotenv.config();
 
 const app = express();
@@ -30,7 +32,11 @@ app.get("/projects", AuthenticationToken, listProjects);
 app.delete('/projects/:id', AuthenticationToken, deleteProject);
 app.put("/projects/:id", AuthenticationToken, updateProject)
 
-
+//Interactions
+app.post("/interactions", AuthenticationToken, addInteraction);
+app.get("/interactions", AuthenticationToken, getInteractions);
+app.delete('/interactions/:id', AuthenticationToken, deleteInteraction);
+app.get("/interactions/count", AuthenticationToken, getInteractionsCount);
 
 
 const PORT = process.env.PORT || 5000;

@@ -149,6 +149,17 @@ exports.Prisma.ProjectScalarFieldEnum = {
   clientId: 'clientId'
 };
 
+exports.Prisma.InteractionScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  type: 'type',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  clientId: 'clientId',
+  projectId: 'projectId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -163,12 +174,17 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.InteractionType = exports.$Enums.InteractionType = {
+  CALL: 'CALL',
+  MEETING: 'MEETING',
+  EMAIL: 'EMAIL'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
   Client: 'Client',
-  Project: 'Project'
+  Project: 'Project',
+  Interaction: 'Interaction'
 };
 
 /**

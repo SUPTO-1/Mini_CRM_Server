@@ -22,8 +22,8 @@ model User {
   location  String
   password  String
   createdAt DateTime @default(now())
-
   projects Project[]
+  interactions Interaction[]
 }
 
 model Client {
@@ -35,8 +35,8 @@ model Client {
   notes     String?
   createdAt DateTime @default(now())
   userId    Int
-
   projects Project[]
+  interactions Interaction[]
 }
 
 model Project {
@@ -48,7 +48,28 @@ model Project {
   createdAt DateTime @default(now())
   userId    Int
   clientId  Int
-
   user   User   @relation(fields: [userId], references: [id])
   client Client @relation(fields: [clientId], references: [id])
+  interactions Interaction[]
+}
+
+enum InteractionType {
+  CALL
+  MEETING
+  EMAIL
+}
+
+model Interaction {
+  id          Int             @id @default(autoincrement())
+  date        DateTime
+  type        InteractionType
+  notes       String
+  createdAt   DateTime        @default(now())
+  userId      Int
+  clientId    Int?
+  projectId   Int?
+  
+  user      User     @relation(fields: [userId], references: [id])
+  client    Client?  @relation(fields: [clientId], references: [id])
+  project   Project? @relation(fields: [projectId], references: [id])
 }

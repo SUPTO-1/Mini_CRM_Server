@@ -28,6 +28,29 @@ export type Client = $Result.DefaultSelection<Prisma.$ClientPayload>
  * 
  */
 export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
+/**
+ * Model Interaction
+ * 
+ */
+export type Interaction = $Result.DefaultSelection<Prisma.$InteractionPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const InteractionType: {
+  CALL: 'CALL',
+  MEETING: 'MEETING',
+  EMAIL: 'EMAIL'
+};
+
+export type InteractionType = (typeof InteractionType)[keyof typeof InteractionType]
+
+}
+
+export type InteractionType = $Enums.InteractionType
+
+export const InteractionType: typeof $Enums.InteractionType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -183,6 +206,16 @@ export class PrismaClient<
     * ```
     */
   get project(): Prisma.ProjectDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.interaction`: Exposes CRUD operations for the **Interaction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Interactions
+    * const interactions = await prisma.interaction.findMany()
+    * ```
+    */
+  get interaction(): Prisma.InteractionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -625,7 +658,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Client: 'Client',
-    Project: 'Project'
+    Project: 'Project',
+    Interaction: 'Interaction'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -644,7 +678,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "client" | "project"
+      modelProps: "user" | "client" | "project" | "interaction"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -870,6 +904,80 @@ export namespace Prisma {
           }
         }
       }
+      Interaction: {
+        payload: Prisma.$InteractionPayload<ExtArgs>
+        fields: Prisma.InteractionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InteractionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InteractionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InteractionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InteractionPayload>
+          }
+          findFirst: {
+            args: Prisma.InteractionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InteractionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InteractionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InteractionPayload>
+          }
+          findMany: {
+            args: Prisma.InteractionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InteractionPayload>[]
+          }
+          create: {
+            args: Prisma.InteractionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InteractionPayload>
+          }
+          createMany: {
+            args: Prisma.InteractionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InteractionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InteractionPayload>[]
+          }
+          delete: {
+            args: Prisma.InteractionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InteractionPayload>
+          }
+          update: {
+            args: Prisma.InteractionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InteractionPayload>
+          }
+          deleteMany: {
+            args: Prisma.InteractionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InteractionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InteractionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InteractionPayload>[]
+          }
+          upsert: {
+            args: Prisma.InteractionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InteractionPayload>
+          }
+          aggregate: {
+            args: Prisma.InteractionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInteraction>
+          }
+          groupBy: {
+            args: Prisma.InteractionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InteractionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InteractionCountArgs<ExtArgs>
+            result: $Utils.Optional<InteractionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -957,6 +1065,7 @@ export namespace Prisma {
     user?: UserOmit
     client?: ClientOmit
     project?: ProjectOmit
+    interaction?: InteractionOmit
   }
 
   /* Types for Logging */
@@ -1052,10 +1161,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     projects: number
+    interactions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     projects?: boolean | UserCountOutputTypeCountProjectsArgs
+    interactions?: boolean | UserCountOutputTypeCountInteractionsArgs
   }
 
   // Custom InputTypes
@@ -1076,6 +1187,13 @@ export namespace Prisma {
     where?: ProjectWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountInteractionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InteractionWhereInput
+  }
+
 
   /**
    * Count Type ClientCountOutputType
@@ -1083,10 +1201,12 @@ export namespace Prisma {
 
   export type ClientCountOutputType = {
     projects: number
+    interactions: number
   }
 
   export type ClientCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     projects?: boolean | ClientCountOutputTypeCountProjectsArgs
+    interactions?: boolean | ClientCountOutputTypeCountInteractionsArgs
   }
 
   // Custom InputTypes
@@ -1105,6 +1225,44 @@ export namespace Prisma {
    */
   export type ClientCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectWhereInput
+  }
+
+  /**
+   * ClientCountOutputType without action
+   */
+  export type ClientCountOutputTypeCountInteractionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InteractionWhereInput
+  }
+
+
+  /**
+   * Count Type ProjectCountOutputType
+   */
+
+  export type ProjectCountOutputType = {
+    interactions: number
+  }
+
+  export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    interactions?: boolean | ProjectCountOutputTypeCountInteractionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCountOutputType
+     */
+    select?: ProjectCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountInteractionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InteractionWhereInput
   }
 
 
@@ -1327,6 +1485,7 @@ export namespace Prisma {
     password?: boolean
     createdAt?: boolean
     projects?: boolean | User$projectsArgs<ExtArgs>
+    interactions?: boolean | User$interactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1363,6 +1522,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "location" | "password" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     projects?: boolean | User$projectsArgs<ExtArgs>
+    interactions?: boolean | User$interactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1372,6 +1532,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       projects: Prisma.$ProjectPayload<ExtArgs>[]
+      interactions: Prisma.$InteractionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1776,6 +1937,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     projects<T extends User$projectsArgs<ExtArgs> = {}>(args?: Subset<T, User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    interactions<T extends User$interactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$interactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2224,6 +2386,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.interactions
+   */
+  export type User$interactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    where?: InteractionWhereInput
+    orderBy?: InteractionOrderByWithRelationInput | InteractionOrderByWithRelationInput[]
+    cursor?: InteractionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InteractionScalarFieldEnum | InteractionScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2469,6 +2655,7 @@ export namespace Prisma {
     createdAt?: boolean
     userId?: boolean
     projects?: boolean | Client$projectsArgs<ExtArgs>
+    interactions?: boolean | Client$interactionsArgs<ExtArgs>
     _count?: boolean | ClientCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["client"]>
 
@@ -2508,6 +2695,7 @@ export namespace Prisma {
   export type ClientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "phone" | "email" | "company" | "notes" | "createdAt" | "userId", ExtArgs["result"]["client"]>
   export type ClientInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     projects?: boolean | Client$projectsArgs<ExtArgs>
+    interactions?: boolean | Client$interactionsArgs<ExtArgs>
     _count?: boolean | ClientCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClientIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2517,6 +2705,7 @@ export namespace Prisma {
     name: "Client"
     objects: {
       projects: Prisma.$ProjectPayload<ExtArgs>[]
+      interactions: Prisma.$InteractionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2922,6 +3111,7 @@ export namespace Prisma {
   export interface Prisma__ClientClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     projects<T extends Client$projectsArgs<ExtArgs> = {}>(args?: Subset<T, Client$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    interactions<T extends Client$interactionsArgs<ExtArgs> = {}>(args?: Subset<T, Client$interactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3371,6 +3561,30 @@ export namespace Prisma {
   }
 
   /**
+   * Client.interactions
+   */
+  export type Client$interactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    where?: InteractionWhereInput
+    orderBy?: InteractionOrderByWithRelationInput | InteractionOrderByWithRelationInput[]
+    cursor?: InteractionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InteractionScalarFieldEnum | InteractionScalarFieldEnum[]
+  }
+
+  /**
    * Client without action
    */
   export type ClientDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3625,6 +3839,8 @@ export namespace Prisma {
     clientId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     client?: boolean | ClientDefaultArgs<ExtArgs>
+    interactions?: boolean | Project$interactionsArgs<ExtArgs>
+    _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3668,6 +3884,8 @@ export namespace Prisma {
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     client?: boolean | ClientDefaultArgs<ExtArgs>
+    interactions?: boolean | Project$interactionsArgs<ExtArgs>
+    _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -3683,6 +3901,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       client: Prisma.$ClientPayload<ExtArgs>
+      interactions: Prisma.$InteractionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4089,6 +4308,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     client<T extends ClientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClientDefaultArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    interactions<T extends Project$interactionsArgs<ExtArgs> = {}>(args?: Subset<T, Project$interactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4522,6 +4742,30 @@ export namespace Prisma {
   }
 
   /**
+   * Project.interactions
+   */
+  export type Project$interactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    where?: InteractionWhereInput
+    orderBy?: InteractionOrderByWithRelationInput | InteractionOrderByWithRelationInput[]
+    cursor?: InteractionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InteractionScalarFieldEnum | InteractionScalarFieldEnum[]
+  }
+
+  /**
    * Project without action
    */
   export type ProjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4537,6 +4781,1203 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProjectInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Interaction
+   */
+
+  export type AggregateInteraction = {
+    _count: InteractionCountAggregateOutputType | null
+    _avg: InteractionAvgAggregateOutputType | null
+    _sum: InteractionSumAggregateOutputType | null
+    _min: InteractionMinAggregateOutputType | null
+    _max: InteractionMaxAggregateOutputType | null
+  }
+
+  export type InteractionAvgAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    clientId: number | null
+    projectId: number | null
+  }
+
+  export type InteractionSumAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    clientId: number | null
+    projectId: number | null
+  }
+
+  export type InteractionMinAggregateOutputType = {
+    id: number | null
+    date: Date | null
+    type: $Enums.InteractionType | null
+    notes: string | null
+    createdAt: Date | null
+    userId: number | null
+    clientId: number | null
+    projectId: number | null
+  }
+
+  export type InteractionMaxAggregateOutputType = {
+    id: number | null
+    date: Date | null
+    type: $Enums.InteractionType | null
+    notes: string | null
+    createdAt: Date | null
+    userId: number | null
+    clientId: number | null
+    projectId: number | null
+  }
+
+  export type InteractionCountAggregateOutputType = {
+    id: number
+    date: number
+    type: number
+    notes: number
+    createdAt: number
+    userId: number
+    clientId: number
+    projectId: number
+    _all: number
+  }
+
+
+  export type InteractionAvgAggregateInputType = {
+    id?: true
+    userId?: true
+    clientId?: true
+    projectId?: true
+  }
+
+  export type InteractionSumAggregateInputType = {
+    id?: true
+    userId?: true
+    clientId?: true
+    projectId?: true
+  }
+
+  export type InteractionMinAggregateInputType = {
+    id?: true
+    date?: true
+    type?: true
+    notes?: true
+    createdAt?: true
+    userId?: true
+    clientId?: true
+    projectId?: true
+  }
+
+  export type InteractionMaxAggregateInputType = {
+    id?: true
+    date?: true
+    type?: true
+    notes?: true
+    createdAt?: true
+    userId?: true
+    clientId?: true
+    projectId?: true
+  }
+
+  export type InteractionCountAggregateInputType = {
+    id?: true
+    date?: true
+    type?: true
+    notes?: true
+    createdAt?: true
+    userId?: true
+    clientId?: true
+    projectId?: true
+    _all?: true
+  }
+
+  export type InteractionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Interaction to aggregate.
+     */
+    where?: InteractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Interactions to fetch.
+     */
+    orderBy?: InteractionOrderByWithRelationInput | InteractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InteractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Interactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Interactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Interactions
+    **/
+    _count?: true | InteractionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InteractionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InteractionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InteractionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InteractionMaxAggregateInputType
+  }
+
+  export type GetInteractionAggregateType<T extends InteractionAggregateArgs> = {
+        [P in keyof T & keyof AggregateInteraction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInteraction[P]>
+      : GetScalarType<T[P], AggregateInteraction[P]>
+  }
+
+
+
+
+  export type InteractionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InteractionWhereInput
+    orderBy?: InteractionOrderByWithAggregationInput | InteractionOrderByWithAggregationInput[]
+    by: InteractionScalarFieldEnum[] | InteractionScalarFieldEnum
+    having?: InteractionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InteractionCountAggregateInputType | true
+    _avg?: InteractionAvgAggregateInputType
+    _sum?: InteractionSumAggregateInputType
+    _min?: InteractionMinAggregateInputType
+    _max?: InteractionMaxAggregateInputType
+  }
+
+  export type InteractionGroupByOutputType = {
+    id: number
+    date: Date
+    type: $Enums.InteractionType
+    notes: string
+    createdAt: Date
+    userId: number
+    clientId: number | null
+    projectId: number | null
+    _count: InteractionCountAggregateOutputType | null
+    _avg: InteractionAvgAggregateOutputType | null
+    _sum: InteractionSumAggregateOutputType | null
+    _min: InteractionMinAggregateOutputType | null
+    _max: InteractionMaxAggregateOutputType | null
+  }
+
+  type GetInteractionGroupByPayload<T extends InteractionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InteractionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InteractionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InteractionGroupByOutputType[P]>
+            : GetScalarType<T[P], InteractionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InteractionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    date?: boolean
+    type?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    clientId?: boolean
+    projectId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    client?: boolean | Interaction$clientArgs<ExtArgs>
+    project?: boolean | Interaction$projectArgs<ExtArgs>
+  }, ExtArgs["result"]["interaction"]>
+
+  export type InteractionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    date?: boolean
+    type?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    clientId?: boolean
+    projectId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    client?: boolean | Interaction$clientArgs<ExtArgs>
+    project?: boolean | Interaction$projectArgs<ExtArgs>
+  }, ExtArgs["result"]["interaction"]>
+
+  export type InteractionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    date?: boolean
+    type?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    clientId?: boolean
+    projectId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    client?: boolean | Interaction$clientArgs<ExtArgs>
+    project?: boolean | Interaction$projectArgs<ExtArgs>
+  }, ExtArgs["result"]["interaction"]>
+
+  export type InteractionSelectScalar = {
+    id?: boolean
+    date?: boolean
+    type?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    clientId?: boolean
+    projectId?: boolean
+  }
+
+  export type InteractionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "type" | "notes" | "createdAt" | "userId" | "clientId" | "projectId", ExtArgs["result"]["interaction"]>
+  export type InteractionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    client?: boolean | Interaction$clientArgs<ExtArgs>
+    project?: boolean | Interaction$projectArgs<ExtArgs>
+  }
+  export type InteractionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    client?: boolean | Interaction$clientArgs<ExtArgs>
+    project?: boolean | Interaction$projectArgs<ExtArgs>
+  }
+  export type InteractionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    client?: boolean | Interaction$clientArgs<ExtArgs>
+    project?: boolean | Interaction$projectArgs<ExtArgs>
+  }
+
+  export type $InteractionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Interaction"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      client: Prisma.$ClientPayload<ExtArgs> | null
+      project: Prisma.$ProjectPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      date: Date
+      type: $Enums.InteractionType
+      notes: string
+      createdAt: Date
+      userId: number
+      clientId: number | null
+      projectId: number | null
+    }, ExtArgs["result"]["interaction"]>
+    composites: {}
+  }
+
+  type InteractionGetPayload<S extends boolean | null | undefined | InteractionDefaultArgs> = $Result.GetResult<Prisma.$InteractionPayload, S>
+
+  type InteractionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InteractionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InteractionCountAggregateInputType | true
+    }
+
+  export interface InteractionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Interaction'], meta: { name: 'Interaction' } }
+    /**
+     * Find zero or one Interaction that matches the filter.
+     * @param {InteractionFindUniqueArgs} args - Arguments to find a Interaction
+     * @example
+     * // Get one Interaction
+     * const interaction = await prisma.interaction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InteractionFindUniqueArgs>(args: SelectSubset<T, InteractionFindUniqueArgs<ExtArgs>>): Prisma__InteractionClient<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Interaction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InteractionFindUniqueOrThrowArgs} args - Arguments to find a Interaction
+     * @example
+     * // Get one Interaction
+     * const interaction = await prisma.interaction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InteractionFindUniqueOrThrowArgs>(args: SelectSubset<T, InteractionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InteractionClient<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Interaction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InteractionFindFirstArgs} args - Arguments to find a Interaction
+     * @example
+     * // Get one Interaction
+     * const interaction = await prisma.interaction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InteractionFindFirstArgs>(args?: SelectSubset<T, InteractionFindFirstArgs<ExtArgs>>): Prisma__InteractionClient<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Interaction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InteractionFindFirstOrThrowArgs} args - Arguments to find a Interaction
+     * @example
+     * // Get one Interaction
+     * const interaction = await prisma.interaction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InteractionFindFirstOrThrowArgs>(args?: SelectSubset<T, InteractionFindFirstOrThrowArgs<ExtArgs>>): Prisma__InteractionClient<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Interactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InteractionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Interactions
+     * const interactions = await prisma.interaction.findMany()
+     * 
+     * // Get first 10 Interactions
+     * const interactions = await prisma.interaction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const interactionWithIdOnly = await prisma.interaction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InteractionFindManyArgs>(args?: SelectSubset<T, InteractionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Interaction.
+     * @param {InteractionCreateArgs} args - Arguments to create a Interaction.
+     * @example
+     * // Create one Interaction
+     * const Interaction = await prisma.interaction.create({
+     *   data: {
+     *     // ... data to create a Interaction
+     *   }
+     * })
+     * 
+     */
+    create<T extends InteractionCreateArgs>(args: SelectSubset<T, InteractionCreateArgs<ExtArgs>>): Prisma__InteractionClient<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Interactions.
+     * @param {InteractionCreateManyArgs} args - Arguments to create many Interactions.
+     * @example
+     * // Create many Interactions
+     * const interaction = await prisma.interaction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InteractionCreateManyArgs>(args?: SelectSubset<T, InteractionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Interactions and returns the data saved in the database.
+     * @param {InteractionCreateManyAndReturnArgs} args - Arguments to create many Interactions.
+     * @example
+     * // Create many Interactions
+     * const interaction = await prisma.interaction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Interactions and only return the `id`
+     * const interactionWithIdOnly = await prisma.interaction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InteractionCreateManyAndReturnArgs>(args?: SelectSubset<T, InteractionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Interaction.
+     * @param {InteractionDeleteArgs} args - Arguments to delete one Interaction.
+     * @example
+     * // Delete one Interaction
+     * const Interaction = await prisma.interaction.delete({
+     *   where: {
+     *     // ... filter to delete one Interaction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InteractionDeleteArgs>(args: SelectSubset<T, InteractionDeleteArgs<ExtArgs>>): Prisma__InteractionClient<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Interaction.
+     * @param {InteractionUpdateArgs} args - Arguments to update one Interaction.
+     * @example
+     * // Update one Interaction
+     * const interaction = await prisma.interaction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InteractionUpdateArgs>(args: SelectSubset<T, InteractionUpdateArgs<ExtArgs>>): Prisma__InteractionClient<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Interactions.
+     * @param {InteractionDeleteManyArgs} args - Arguments to filter Interactions to delete.
+     * @example
+     * // Delete a few Interactions
+     * const { count } = await prisma.interaction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InteractionDeleteManyArgs>(args?: SelectSubset<T, InteractionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Interactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InteractionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Interactions
+     * const interaction = await prisma.interaction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InteractionUpdateManyArgs>(args: SelectSubset<T, InteractionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Interactions and returns the data updated in the database.
+     * @param {InteractionUpdateManyAndReturnArgs} args - Arguments to update many Interactions.
+     * @example
+     * // Update many Interactions
+     * const interaction = await prisma.interaction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Interactions and only return the `id`
+     * const interactionWithIdOnly = await prisma.interaction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InteractionUpdateManyAndReturnArgs>(args: SelectSubset<T, InteractionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Interaction.
+     * @param {InteractionUpsertArgs} args - Arguments to update or create a Interaction.
+     * @example
+     * // Update or create a Interaction
+     * const interaction = await prisma.interaction.upsert({
+     *   create: {
+     *     // ... data to create a Interaction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Interaction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InteractionUpsertArgs>(args: SelectSubset<T, InteractionUpsertArgs<ExtArgs>>): Prisma__InteractionClient<$Result.GetResult<Prisma.$InteractionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Interactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InteractionCountArgs} args - Arguments to filter Interactions to count.
+     * @example
+     * // Count the number of Interactions
+     * const count = await prisma.interaction.count({
+     *   where: {
+     *     // ... the filter for the Interactions we want to count
+     *   }
+     * })
+    **/
+    count<T extends InteractionCountArgs>(
+      args?: Subset<T, InteractionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InteractionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Interaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InteractionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InteractionAggregateArgs>(args: Subset<T, InteractionAggregateArgs>): Prisma.PrismaPromise<GetInteractionAggregateType<T>>
+
+    /**
+     * Group by Interaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InteractionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InteractionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InteractionGroupByArgs['orderBy'] }
+        : { orderBy?: InteractionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InteractionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInteractionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Interaction model
+   */
+  readonly fields: InteractionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Interaction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InteractionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    client<T extends Interaction$clientArgs<ExtArgs> = {}>(args?: Subset<T, Interaction$clientArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    project<T extends Interaction$projectArgs<ExtArgs> = {}>(args?: Subset<T, Interaction$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Interaction model
+   */
+  interface InteractionFieldRefs {
+    readonly id: FieldRef<"Interaction", 'Int'>
+    readonly date: FieldRef<"Interaction", 'DateTime'>
+    readonly type: FieldRef<"Interaction", 'InteractionType'>
+    readonly notes: FieldRef<"Interaction", 'String'>
+    readonly createdAt: FieldRef<"Interaction", 'DateTime'>
+    readonly userId: FieldRef<"Interaction", 'Int'>
+    readonly clientId: FieldRef<"Interaction", 'Int'>
+    readonly projectId: FieldRef<"Interaction", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Interaction findUnique
+   */
+  export type InteractionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    /**
+     * Filter, which Interaction to fetch.
+     */
+    where: InteractionWhereUniqueInput
+  }
+
+  /**
+   * Interaction findUniqueOrThrow
+   */
+  export type InteractionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    /**
+     * Filter, which Interaction to fetch.
+     */
+    where: InteractionWhereUniqueInput
+  }
+
+  /**
+   * Interaction findFirst
+   */
+  export type InteractionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    /**
+     * Filter, which Interaction to fetch.
+     */
+    where?: InteractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Interactions to fetch.
+     */
+    orderBy?: InteractionOrderByWithRelationInput | InteractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Interactions.
+     */
+    cursor?: InteractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Interactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Interactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Interactions.
+     */
+    distinct?: InteractionScalarFieldEnum | InteractionScalarFieldEnum[]
+  }
+
+  /**
+   * Interaction findFirstOrThrow
+   */
+  export type InteractionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    /**
+     * Filter, which Interaction to fetch.
+     */
+    where?: InteractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Interactions to fetch.
+     */
+    orderBy?: InteractionOrderByWithRelationInput | InteractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Interactions.
+     */
+    cursor?: InteractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Interactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Interactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Interactions.
+     */
+    distinct?: InteractionScalarFieldEnum | InteractionScalarFieldEnum[]
+  }
+
+  /**
+   * Interaction findMany
+   */
+  export type InteractionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    /**
+     * Filter, which Interactions to fetch.
+     */
+    where?: InteractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Interactions to fetch.
+     */
+    orderBy?: InteractionOrderByWithRelationInput | InteractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Interactions.
+     */
+    cursor?: InteractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Interactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Interactions.
+     */
+    skip?: number
+    distinct?: InteractionScalarFieldEnum | InteractionScalarFieldEnum[]
+  }
+
+  /**
+   * Interaction create
+   */
+  export type InteractionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Interaction.
+     */
+    data: XOR<InteractionCreateInput, InteractionUncheckedCreateInput>
+  }
+
+  /**
+   * Interaction createMany
+   */
+  export type InteractionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Interactions.
+     */
+    data: InteractionCreateManyInput | InteractionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Interaction createManyAndReturn
+   */
+  export type InteractionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Interactions.
+     */
+    data: InteractionCreateManyInput | InteractionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Interaction update
+   */
+  export type InteractionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Interaction.
+     */
+    data: XOR<InteractionUpdateInput, InteractionUncheckedUpdateInput>
+    /**
+     * Choose, which Interaction to update.
+     */
+    where: InteractionWhereUniqueInput
+  }
+
+  /**
+   * Interaction updateMany
+   */
+  export type InteractionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Interactions.
+     */
+    data: XOR<InteractionUpdateManyMutationInput, InteractionUncheckedUpdateManyInput>
+    /**
+     * Filter which Interactions to update
+     */
+    where?: InteractionWhereInput
+    /**
+     * Limit how many Interactions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Interaction updateManyAndReturn
+   */
+  export type InteractionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * The data used to update Interactions.
+     */
+    data: XOR<InteractionUpdateManyMutationInput, InteractionUncheckedUpdateManyInput>
+    /**
+     * Filter which Interactions to update
+     */
+    where?: InteractionWhereInput
+    /**
+     * Limit how many Interactions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Interaction upsert
+   */
+  export type InteractionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Interaction to update in case it exists.
+     */
+    where: InteractionWhereUniqueInput
+    /**
+     * In case the Interaction found by the `where` argument doesn't exist, create a new Interaction with this data.
+     */
+    create: XOR<InteractionCreateInput, InteractionUncheckedCreateInput>
+    /**
+     * In case the Interaction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InteractionUpdateInput, InteractionUncheckedUpdateInput>
+  }
+
+  /**
+   * Interaction delete
+   */
+  export type InteractionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
+    /**
+     * Filter which Interaction to delete.
+     */
+    where: InteractionWhereUniqueInput
+  }
+
+  /**
+   * Interaction deleteMany
+   */
+  export type InteractionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Interactions to delete
+     */
+    where?: InteractionWhereInput
+    /**
+     * Limit how many Interactions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Interaction.client
+   */
+  export type Interaction$clientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Client
+     */
+    select?: ClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Client
+     */
+    omit?: ClientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInclude<ExtArgs> | null
+    where?: ClientWhereInput
+  }
+
+  /**
+   * Interaction.project
+   */
+  export type Interaction$projectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+  }
+
+  /**
+   * Interaction without action
+   */
+  export type InteractionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null
   }
 
 
@@ -4593,6 +6034,20 @@ export namespace Prisma {
   };
 
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+  export const InteractionScalarFieldEnum: {
+    id: 'id',
+    date: 'date',
+    type: 'type',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    userId: 'userId',
+    clientId: 'clientId',
+    projectId: 'projectId'
+  };
+
+  export type InteractionScalarFieldEnum = (typeof InteractionScalarFieldEnum)[keyof typeof InteractionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4678,6 +6133,20 @@ export namespace Prisma {
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
+
+
+  /**
+   * Reference to a field of type 'InteractionType'
+   */
+  export type EnumInteractionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InteractionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'InteractionType[]'
+   */
+  export type ListEnumInteractionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InteractionType[]'>
+    
   /**
    * Deep Input Types
    */
@@ -4695,6 +6164,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     projects?: ProjectListRelationFilter
+    interactions?: InteractionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4706,6 +6176,7 @@ export namespace Prisma {
     password?: SortOrder
     createdAt?: SortOrder
     projects?: ProjectOrderByRelationAggregateInput
+    interactions?: InteractionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -4720,6 +6191,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     projects?: ProjectListRelationFilter
+    interactions?: InteractionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -4763,6 +6235,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Client"> | Date | string
     userId?: IntFilter<"Client"> | number
     projects?: ProjectListRelationFilter
+    interactions?: InteractionListRelationFilter
   }
 
   export type ClientOrderByWithRelationInput = {
@@ -4775,6 +6248,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     userId?: SortOrder
     projects?: ProjectOrderByRelationAggregateInput
+    interactions?: InteractionOrderByRelationAggregateInput
   }
 
   export type ClientWhereUniqueInput = Prisma.AtLeast<{
@@ -4790,6 +6264,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Client"> | Date | string
     userId?: IntFilter<"Client"> | number
     projects?: ProjectListRelationFilter
+    interactions?: InteractionListRelationFilter
   }, "id" | "email">
 
   export type ClientOrderByWithAggregationInput = {
@@ -4836,6 +6311,7 @@ export namespace Prisma {
     clientId?: IntFilter<"Project"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
+    interactions?: InteractionListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -4849,6 +6325,7 @@ export namespace Prisma {
     clientId?: SortOrder
     user?: UserOrderByWithRelationInput
     client?: ClientOrderByWithRelationInput
+    interactions?: InteractionOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -4865,6 +6342,7 @@ export namespace Prisma {
     clientId?: IntFilter<"Project"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
+    interactions?: InteractionListRelationFilter
   }, "id">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -4897,6 +6375,84 @@ export namespace Prisma {
     clientId?: IntWithAggregatesFilter<"Project"> | number
   }
 
+  export type InteractionWhereInput = {
+    AND?: InteractionWhereInput | InteractionWhereInput[]
+    OR?: InteractionWhereInput[]
+    NOT?: InteractionWhereInput | InteractionWhereInput[]
+    id?: IntFilter<"Interaction"> | number
+    date?: DateTimeFilter<"Interaction"> | Date | string
+    type?: EnumInteractionTypeFilter<"Interaction"> | $Enums.InteractionType
+    notes?: StringFilter<"Interaction"> | string
+    createdAt?: DateTimeFilter<"Interaction"> | Date | string
+    userId?: IntFilter<"Interaction"> | number
+    clientId?: IntNullableFilter<"Interaction"> | number | null
+    projectId?: IntNullableFilter<"Interaction"> | number | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    client?: XOR<ClientNullableScalarRelationFilter, ClientWhereInput> | null
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+  }
+
+  export type InteractionOrderByWithRelationInput = {
+    id?: SortOrder
+    date?: SortOrder
+    type?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    clientId?: SortOrderInput | SortOrder
+    projectId?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    client?: ClientOrderByWithRelationInput
+    project?: ProjectOrderByWithRelationInput
+  }
+
+  export type InteractionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: InteractionWhereInput | InteractionWhereInput[]
+    OR?: InteractionWhereInput[]
+    NOT?: InteractionWhereInput | InteractionWhereInput[]
+    date?: DateTimeFilter<"Interaction"> | Date | string
+    type?: EnumInteractionTypeFilter<"Interaction"> | $Enums.InteractionType
+    notes?: StringFilter<"Interaction"> | string
+    createdAt?: DateTimeFilter<"Interaction"> | Date | string
+    userId?: IntFilter<"Interaction"> | number
+    clientId?: IntNullableFilter<"Interaction"> | number | null
+    projectId?: IntNullableFilter<"Interaction"> | number | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    client?: XOR<ClientNullableScalarRelationFilter, ClientWhereInput> | null
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+  }, "id">
+
+  export type InteractionOrderByWithAggregationInput = {
+    id?: SortOrder
+    date?: SortOrder
+    type?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    clientId?: SortOrderInput | SortOrder
+    projectId?: SortOrderInput | SortOrder
+    _count?: InteractionCountOrderByAggregateInput
+    _avg?: InteractionAvgOrderByAggregateInput
+    _max?: InteractionMaxOrderByAggregateInput
+    _min?: InteractionMinOrderByAggregateInput
+    _sum?: InteractionSumOrderByAggregateInput
+  }
+
+  export type InteractionScalarWhereWithAggregatesInput = {
+    AND?: InteractionScalarWhereWithAggregatesInput | InteractionScalarWhereWithAggregatesInput[]
+    OR?: InteractionScalarWhereWithAggregatesInput[]
+    NOT?: InteractionScalarWhereWithAggregatesInput | InteractionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Interaction"> | number
+    date?: DateTimeWithAggregatesFilter<"Interaction"> | Date | string
+    type?: EnumInteractionTypeWithAggregatesFilter<"Interaction"> | $Enums.InteractionType
+    notes?: StringWithAggregatesFilter<"Interaction"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Interaction"> | Date | string
+    userId?: IntWithAggregatesFilter<"Interaction"> | number
+    clientId?: IntNullableWithAggregatesFilter<"Interaction"> | number | null
+    projectId?: IntNullableWithAggregatesFilter<"Interaction"> | number | null
+  }
+
   export type UserCreateInput = {
     name: string
     email: string
@@ -4905,6 +6461,7 @@ export namespace Prisma {
     password: string
     createdAt?: Date | string
     projects?: ProjectCreateNestedManyWithoutUserInput
+    interactions?: InteractionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -4916,6 +6473,7 @@ export namespace Prisma {
     password: string
     createdAt?: Date | string
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    interactions?: InteractionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -4926,6 +6484,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     projects?: ProjectUpdateManyWithoutUserNestedInput
+    interactions?: InteractionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -4937,6 +6496,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    interactions?: InteractionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -4977,6 +6537,7 @@ export namespace Prisma {
     createdAt?: Date | string
     userId: number
     projects?: ProjectCreateNestedManyWithoutClientInput
+    interactions?: InteractionCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateInput = {
@@ -4989,6 +6550,7 @@ export namespace Prisma {
     createdAt?: Date | string
     userId: number
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
+    interactions?: InteractionUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientUpdateInput = {
@@ -5000,6 +6562,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
     projects?: ProjectUpdateManyWithoutClientNestedInput
+    interactions?: InteractionUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateInput = {
@@ -5012,6 +6575,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
+    interactions?: InteractionUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type ClientCreateManyInput = {
@@ -5054,6 +6618,7 @@ export namespace Prisma {
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutProjectsInput
     client: ClientCreateNestedOneWithoutProjectsInput
+    interactions?: InteractionCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -5065,6 +6630,7 @@ export namespace Prisma {
     createdAt?: Date | string
     userId: number
     clientId: number
+    interactions?: InteractionUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -5075,6 +6641,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutProjectsNestedInput
     client?: ClientUpdateOneRequiredWithoutProjectsNestedInput
+    interactions?: InteractionUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -5086,6 +6653,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
     clientId?: IntFieldUpdateOperationsInput | number
+    interactions?: InteractionUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -5116,6 +6684,77 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
     clientId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type InteractionCreateInput = {
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutInteractionsInput
+    client?: ClientCreateNestedOneWithoutInteractionsInput
+    project?: ProjectCreateNestedOneWithoutInteractionsInput
+  }
+
+  export type InteractionUncheckedCreateInput = {
+    id?: number
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    userId: number
+    clientId?: number | null
+    projectId?: number | null
+  }
+
+  export type InteractionUpdateInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInteractionsNestedInput
+    client?: ClientUpdateOneWithoutInteractionsNestedInput
+    project?: ProjectUpdateOneWithoutInteractionsNestedInput
+  }
+
+  export type InteractionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    clientId?: NullableIntFieldUpdateOperationsInput | number | null
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type InteractionCreateManyInput = {
+    id?: number
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    userId: number
+    clientId?: number | null
+    projectId?: number | null
+  }
+
+  export type InteractionUpdateManyMutationInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InteractionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    clientId?: NullableIntFieldUpdateOperationsInput | number | null
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -5161,7 +6800,17 @@ export namespace Prisma {
     none?: ProjectWhereInput
   }
 
+  export type InteractionListRelationFilter = {
+    every?: InteractionWhereInput
+    some?: InteractionWhereInput
+    none?: InteractionWhereInput
+  }
+
   export type ProjectOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InteractionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5416,6 +7065,107 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type EnumInteractionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionType | EnumInteractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInteractionTypeFilter<$PrismaModel> | $Enums.InteractionType
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type ClientNullableScalarRelationFilter = {
+    is?: ClientWhereInput | null
+    isNot?: ClientWhereInput | null
+  }
+
+  export type ProjectNullableScalarRelationFilter = {
+    is?: ProjectWhereInput | null
+    isNot?: ProjectWhereInput | null
+  }
+
+  export type InteractionCountOrderByAggregateInput = {
+    id?: SortOrder
+    date?: SortOrder
+    type?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    clientId?: SortOrder
+    projectId?: SortOrder
+  }
+
+  export type InteractionAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    clientId?: SortOrder
+    projectId?: SortOrder
+  }
+
+  export type InteractionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    date?: SortOrder
+    type?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    clientId?: SortOrder
+    projectId?: SortOrder
+  }
+
+  export type InteractionMinOrderByAggregateInput = {
+    id?: SortOrder
+    date?: SortOrder
+    type?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    clientId?: SortOrder
+    projectId?: SortOrder
+  }
+
+  export type InteractionSumOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    clientId?: SortOrder
+    projectId?: SortOrder
+  }
+
+  export type EnumInteractionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionType | EnumInteractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInteractionTypeWithAggregatesFilter<$PrismaModel> | $Enums.InteractionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInteractionTypeFilter<$PrismaModel>
+    _max?: NestedEnumInteractionTypeFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type ProjectCreateNestedManyWithoutUserInput = {
     create?: XOR<ProjectCreateWithoutUserInput, ProjectUncheckedCreateWithoutUserInput> | ProjectCreateWithoutUserInput[] | ProjectUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutUserInput | ProjectCreateOrConnectWithoutUserInput[]
@@ -5423,11 +7173,25 @@ export namespace Prisma {
     connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
   }
 
+  export type InteractionCreateNestedManyWithoutUserInput = {
+    create?: XOR<InteractionCreateWithoutUserInput, InteractionUncheckedCreateWithoutUserInput> | InteractionCreateWithoutUserInput[] | InteractionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutUserInput | InteractionCreateOrConnectWithoutUserInput[]
+    createMany?: InteractionCreateManyUserInputEnvelope
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+  }
+
   export type ProjectUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<ProjectCreateWithoutUserInput, ProjectUncheckedCreateWithoutUserInput> | ProjectCreateWithoutUserInput[] | ProjectUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutUserInput | ProjectCreateOrConnectWithoutUserInput[]
     createMany?: ProjectCreateManyUserInputEnvelope
     connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
+  export type InteractionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<InteractionCreateWithoutUserInput, InteractionUncheckedCreateWithoutUserInput> | InteractionCreateWithoutUserInput[] | InteractionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutUserInput | InteractionCreateOrConnectWithoutUserInput[]
+    createMany?: InteractionCreateManyUserInputEnvelope
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5452,6 +7216,20 @@ export namespace Prisma {
     deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
+  export type InteractionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<InteractionCreateWithoutUserInput, InteractionUncheckedCreateWithoutUserInput> | InteractionCreateWithoutUserInput[] | InteractionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutUserInput | InteractionCreateOrConnectWithoutUserInput[]
+    upsert?: InteractionUpsertWithWhereUniqueWithoutUserInput | InteractionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: InteractionCreateManyUserInputEnvelope
+    set?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    disconnect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    delete?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    update?: InteractionUpdateWithWhereUniqueWithoutUserInput | InteractionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: InteractionUpdateManyWithWhereWithoutUserInput | InteractionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: InteractionScalarWhereInput | InteractionScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -5474,6 +7252,20 @@ export namespace Prisma {
     deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
+  export type InteractionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<InteractionCreateWithoutUserInput, InteractionUncheckedCreateWithoutUserInput> | InteractionCreateWithoutUserInput[] | InteractionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutUserInput | InteractionCreateOrConnectWithoutUserInput[]
+    upsert?: InteractionUpsertWithWhereUniqueWithoutUserInput | InteractionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: InteractionCreateManyUserInputEnvelope
+    set?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    disconnect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    delete?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    update?: InteractionUpdateWithWhereUniqueWithoutUserInput | InteractionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: InteractionUpdateManyWithWhereWithoutUserInput | InteractionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: InteractionScalarWhereInput | InteractionScalarWhereInput[]
+  }
+
   export type ProjectCreateNestedManyWithoutClientInput = {
     create?: XOR<ProjectCreateWithoutClientInput, ProjectUncheckedCreateWithoutClientInput> | ProjectCreateWithoutClientInput[] | ProjectUncheckedCreateWithoutClientInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutClientInput | ProjectCreateOrConnectWithoutClientInput[]
@@ -5481,11 +7273,25 @@ export namespace Prisma {
     connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
   }
 
+  export type InteractionCreateNestedManyWithoutClientInput = {
+    create?: XOR<InteractionCreateWithoutClientInput, InteractionUncheckedCreateWithoutClientInput> | InteractionCreateWithoutClientInput[] | InteractionUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutClientInput | InteractionCreateOrConnectWithoutClientInput[]
+    createMany?: InteractionCreateManyClientInputEnvelope
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+  }
+
   export type ProjectUncheckedCreateNestedManyWithoutClientInput = {
     create?: XOR<ProjectCreateWithoutClientInput, ProjectUncheckedCreateWithoutClientInput> | ProjectCreateWithoutClientInput[] | ProjectUncheckedCreateWithoutClientInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutClientInput | ProjectCreateOrConnectWithoutClientInput[]
     createMany?: ProjectCreateManyClientInputEnvelope
     connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
+  export type InteractionUncheckedCreateNestedManyWithoutClientInput = {
+    create?: XOR<InteractionCreateWithoutClientInput, InteractionUncheckedCreateWithoutClientInput> | InteractionCreateWithoutClientInput[] | InteractionUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutClientInput | InteractionCreateOrConnectWithoutClientInput[]
+    createMany?: InteractionCreateManyClientInputEnvelope
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -5506,6 +7312,20 @@ export namespace Prisma {
     deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
+  export type InteractionUpdateManyWithoutClientNestedInput = {
+    create?: XOR<InteractionCreateWithoutClientInput, InteractionUncheckedCreateWithoutClientInput> | InteractionCreateWithoutClientInput[] | InteractionUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutClientInput | InteractionCreateOrConnectWithoutClientInput[]
+    upsert?: InteractionUpsertWithWhereUniqueWithoutClientInput | InteractionUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: InteractionCreateManyClientInputEnvelope
+    set?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    disconnect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    delete?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    update?: InteractionUpdateWithWhereUniqueWithoutClientInput | InteractionUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: InteractionUpdateManyWithWhereWithoutClientInput | InteractionUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: InteractionScalarWhereInput | InteractionScalarWhereInput[]
+  }
+
   export type ProjectUncheckedUpdateManyWithoutClientNestedInput = {
     create?: XOR<ProjectCreateWithoutClientInput, ProjectUncheckedCreateWithoutClientInput> | ProjectCreateWithoutClientInput[] | ProjectUncheckedCreateWithoutClientInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutClientInput | ProjectCreateOrConnectWithoutClientInput[]
@@ -5520,6 +7340,20 @@ export namespace Prisma {
     deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
+  export type InteractionUncheckedUpdateManyWithoutClientNestedInput = {
+    create?: XOR<InteractionCreateWithoutClientInput, InteractionUncheckedCreateWithoutClientInput> | InteractionCreateWithoutClientInput[] | InteractionUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutClientInput | InteractionCreateOrConnectWithoutClientInput[]
+    upsert?: InteractionUpsertWithWhereUniqueWithoutClientInput | InteractionUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: InteractionCreateManyClientInputEnvelope
+    set?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    disconnect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    delete?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    update?: InteractionUpdateWithWhereUniqueWithoutClientInput | InteractionUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: InteractionUpdateManyWithWhereWithoutClientInput | InteractionUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: InteractionScalarWhereInput | InteractionScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutProjectsInput = {
     create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
     connectOrCreate?: UserCreateOrConnectWithoutProjectsInput
@@ -5530,6 +7364,20 @@ export namespace Prisma {
     create?: XOR<ClientCreateWithoutProjectsInput, ClientUncheckedCreateWithoutProjectsInput>
     connectOrCreate?: ClientCreateOrConnectWithoutProjectsInput
     connect?: ClientWhereUniqueInput
+  }
+
+  export type InteractionCreateNestedManyWithoutProjectInput = {
+    create?: XOR<InteractionCreateWithoutProjectInput, InteractionUncheckedCreateWithoutProjectInput> | InteractionCreateWithoutProjectInput[] | InteractionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutProjectInput | InteractionCreateOrConnectWithoutProjectInput[]
+    createMany?: InteractionCreateManyProjectInputEnvelope
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+  }
+
+  export type InteractionUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<InteractionCreateWithoutProjectInput, InteractionUncheckedCreateWithoutProjectInput> | InteractionCreateWithoutProjectInput[] | InteractionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutProjectInput | InteractionCreateOrConnectWithoutProjectInput[]
+    createMany?: InteractionCreateManyProjectInputEnvelope
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -5554,6 +7402,92 @@ export namespace Prisma {
     upsert?: ClientUpsertWithoutProjectsInput
     connect?: ClientWhereUniqueInput
     update?: XOR<XOR<ClientUpdateToOneWithWhereWithoutProjectsInput, ClientUpdateWithoutProjectsInput>, ClientUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type InteractionUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<InteractionCreateWithoutProjectInput, InteractionUncheckedCreateWithoutProjectInput> | InteractionCreateWithoutProjectInput[] | InteractionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutProjectInput | InteractionCreateOrConnectWithoutProjectInput[]
+    upsert?: InteractionUpsertWithWhereUniqueWithoutProjectInput | InteractionUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: InteractionCreateManyProjectInputEnvelope
+    set?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    disconnect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    delete?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    update?: InteractionUpdateWithWhereUniqueWithoutProjectInput | InteractionUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: InteractionUpdateManyWithWhereWithoutProjectInput | InteractionUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: InteractionScalarWhereInput | InteractionScalarWhereInput[]
+  }
+
+  export type InteractionUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<InteractionCreateWithoutProjectInput, InteractionUncheckedCreateWithoutProjectInput> | InteractionCreateWithoutProjectInput[] | InteractionUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: InteractionCreateOrConnectWithoutProjectInput | InteractionCreateOrConnectWithoutProjectInput[]
+    upsert?: InteractionUpsertWithWhereUniqueWithoutProjectInput | InteractionUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: InteractionCreateManyProjectInputEnvelope
+    set?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    disconnect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    delete?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    connect?: InteractionWhereUniqueInput | InteractionWhereUniqueInput[]
+    update?: InteractionUpdateWithWhereUniqueWithoutProjectInput | InteractionUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: InteractionUpdateManyWithWhereWithoutProjectInput | InteractionUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: InteractionScalarWhereInput | InteractionScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutInteractionsInput = {
+    create?: XOR<UserCreateWithoutInteractionsInput, UserUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInteractionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ClientCreateNestedOneWithoutInteractionsInput = {
+    create?: XOR<ClientCreateWithoutInteractionsInput, ClientUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: ClientCreateOrConnectWithoutInteractionsInput
+    connect?: ClientWhereUniqueInput
+  }
+
+  export type ProjectCreateNestedOneWithoutInteractionsInput = {
+    create?: XOR<ProjectCreateWithoutInteractionsInput, ProjectUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutInteractionsInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type EnumInteractionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.InteractionType
+  }
+
+  export type UserUpdateOneRequiredWithoutInteractionsNestedInput = {
+    create?: XOR<UserCreateWithoutInteractionsInput, UserUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInteractionsInput
+    upsert?: UserUpsertWithoutInteractionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInteractionsInput, UserUpdateWithoutInteractionsInput>, UserUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type ClientUpdateOneWithoutInteractionsNestedInput = {
+    create?: XOR<ClientCreateWithoutInteractionsInput, ClientUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: ClientCreateOrConnectWithoutInteractionsInput
+    upsert?: ClientUpsertWithoutInteractionsInput
+    disconnect?: ClientWhereInput | boolean
+    delete?: ClientWhereInput | boolean
+    connect?: ClientWhereUniqueInput
+    update?: XOR<XOR<ClientUpdateToOneWithWhereWithoutInteractionsInput, ClientUpdateWithoutInteractionsInput>, ClientUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type ProjectUpdateOneWithoutInteractionsNestedInput = {
+    create?: XOR<ProjectCreateWithoutInteractionsInput, ProjectUncheckedCreateWithoutInteractionsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutInteractionsInput
+    upsert?: ProjectUpsertWithoutInteractionsInput
+    disconnect?: ProjectWhereInput | boolean
+    delete?: ProjectWhereInput | boolean
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutInteractionsInput, ProjectUpdateWithoutInteractionsInput>, ProjectUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -5708,6 +7642,50 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedEnumInteractionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionType | EnumInteractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInteractionTypeFilter<$PrismaModel> | $Enums.InteractionType
+  }
+
+  export type NestedEnumInteractionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InteractionType | EnumInteractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InteractionType[] | ListEnumInteractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumInteractionTypeWithAggregatesFilter<$PrismaModel> | $Enums.InteractionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInteractionTypeFilter<$PrismaModel>
+    _max?: NestedEnumInteractionTypeFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ProjectCreateWithoutUserInput = {
     title: string
     budget: number
@@ -5715,6 +7693,7 @@ export namespace Prisma {
     status: string
     createdAt?: Date | string
     client: ClientCreateNestedOneWithoutProjectsInput
+    interactions?: InteractionCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutUserInput = {
@@ -5725,6 +7704,7 @@ export namespace Prisma {
     status: string
     createdAt?: Date | string
     clientId: number
+    interactions?: InteractionUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutUserInput = {
@@ -5734,6 +7714,35 @@ export namespace Prisma {
 
   export type ProjectCreateManyUserInputEnvelope = {
     data: ProjectCreateManyUserInput | ProjectCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InteractionCreateWithoutUserInput = {
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    client?: ClientCreateNestedOneWithoutInteractionsInput
+    project?: ProjectCreateNestedOneWithoutInteractionsInput
+  }
+
+  export type InteractionUncheckedCreateWithoutUserInput = {
+    id?: number
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    clientId?: number | null
+    projectId?: number | null
+  }
+
+  export type InteractionCreateOrConnectWithoutUserInput = {
+    where: InteractionWhereUniqueInput
+    create: XOR<InteractionCreateWithoutUserInput, InteractionUncheckedCreateWithoutUserInput>
+  }
+
+  export type InteractionCreateManyUserInputEnvelope = {
+    data: InteractionCreateManyUserInput | InteractionCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -5767,6 +7776,36 @@ export namespace Prisma {
     clientId?: IntFilter<"Project"> | number
   }
 
+  export type InteractionUpsertWithWhereUniqueWithoutUserInput = {
+    where: InteractionWhereUniqueInput
+    update: XOR<InteractionUpdateWithoutUserInput, InteractionUncheckedUpdateWithoutUserInput>
+    create: XOR<InteractionCreateWithoutUserInput, InteractionUncheckedCreateWithoutUserInput>
+  }
+
+  export type InteractionUpdateWithWhereUniqueWithoutUserInput = {
+    where: InteractionWhereUniqueInput
+    data: XOR<InteractionUpdateWithoutUserInput, InteractionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type InteractionUpdateManyWithWhereWithoutUserInput = {
+    where: InteractionScalarWhereInput
+    data: XOR<InteractionUpdateManyMutationInput, InteractionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type InteractionScalarWhereInput = {
+    AND?: InteractionScalarWhereInput | InteractionScalarWhereInput[]
+    OR?: InteractionScalarWhereInput[]
+    NOT?: InteractionScalarWhereInput | InteractionScalarWhereInput[]
+    id?: IntFilter<"Interaction"> | number
+    date?: DateTimeFilter<"Interaction"> | Date | string
+    type?: EnumInteractionTypeFilter<"Interaction"> | $Enums.InteractionType
+    notes?: StringFilter<"Interaction"> | string
+    createdAt?: DateTimeFilter<"Interaction"> | Date | string
+    userId?: IntFilter<"Interaction"> | number
+    clientId?: IntNullableFilter<"Interaction"> | number | null
+    projectId?: IntNullableFilter<"Interaction"> | number | null
+  }
+
   export type ProjectCreateWithoutClientInput = {
     title: string
     budget: number
@@ -5774,6 +7813,7 @@ export namespace Prisma {
     status: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutProjectsInput
+    interactions?: InteractionCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutClientInput = {
@@ -5784,6 +7824,7 @@ export namespace Prisma {
     status: string
     createdAt?: Date | string
     userId: number
+    interactions?: InteractionUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutClientInput = {
@@ -5793,6 +7834,35 @@ export namespace Prisma {
 
   export type ProjectCreateManyClientInputEnvelope = {
     data: ProjectCreateManyClientInput | ProjectCreateManyClientInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InteractionCreateWithoutClientInput = {
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutInteractionsInput
+    project?: ProjectCreateNestedOneWithoutInteractionsInput
+  }
+
+  export type InteractionUncheckedCreateWithoutClientInput = {
+    id?: number
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    userId: number
+    projectId?: number | null
+  }
+
+  export type InteractionCreateOrConnectWithoutClientInput = {
+    where: InteractionWhereUniqueInput
+    create: XOR<InteractionCreateWithoutClientInput, InteractionUncheckedCreateWithoutClientInput>
+  }
+
+  export type InteractionCreateManyClientInputEnvelope = {
+    data: InteractionCreateManyClientInput | InteractionCreateManyClientInput[]
     skipDuplicates?: boolean
   }
 
@@ -5812,6 +7882,22 @@ export namespace Prisma {
     data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyWithoutClientInput>
   }
 
+  export type InteractionUpsertWithWhereUniqueWithoutClientInput = {
+    where: InteractionWhereUniqueInput
+    update: XOR<InteractionUpdateWithoutClientInput, InteractionUncheckedUpdateWithoutClientInput>
+    create: XOR<InteractionCreateWithoutClientInput, InteractionUncheckedCreateWithoutClientInput>
+  }
+
+  export type InteractionUpdateWithWhereUniqueWithoutClientInput = {
+    where: InteractionWhereUniqueInput
+    data: XOR<InteractionUpdateWithoutClientInput, InteractionUncheckedUpdateWithoutClientInput>
+  }
+
+  export type InteractionUpdateManyWithWhereWithoutClientInput = {
+    where: InteractionScalarWhereInput
+    data: XOR<InteractionUpdateManyMutationInput, InteractionUncheckedUpdateManyWithoutClientInput>
+  }
+
   export type UserCreateWithoutProjectsInput = {
     name: string
     email: string
@@ -5819,6 +7905,7 @@ export namespace Prisma {
     location: string
     password: string
     createdAt?: Date | string
+    interactions?: InteractionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectsInput = {
@@ -5829,6 +7916,7 @@ export namespace Prisma {
     location: string
     password: string
     createdAt?: Date | string
+    interactions?: InteractionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectsInput = {
@@ -5844,6 +7932,7 @@ export namespace Prisma {
     notes?: string | null
     createdAt?: Date | string
     userId: number
+    interactions?: InteractionCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutProjectsInput = {
@@ -5855,11 +7944,41 @@ export namespace Prisma {
     notes?: string | null
     createdAt?: Date | string
     userId: number
+    interactions?: InteractionUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutProjectsInput = {
     where: ClientWhereUniqueInput
     create: XOR<ClientCreateWithoutProjectsInput, ClientUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type InteractionCreateWithoutProjectInput = {
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutInteractionsInput
+    client?: ClientCreateNestedOneWithoutInteractionsInput
+  }
+
+  export type InteractionUncheckedCreateWithoutProjectInput = {
+    id?: number
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    userId: number
+    clientId?: number | null
+  }
+
+  export type InteractionCreateOrConnectWithoutProjectInput = {
+    where: InteractionWhereUniqueInput
+    create: XOR<InteractionCreateWithoutProjectInput, InteractionUncheckedCreateWithoutProjectInput>
+  }
+
+  export type InteractionCreateManyProjectInputEnvelope = {
+    data: InteractionCreateManyProjectInput | InteractionCreateManyProjectInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutProjectsInput = {
@@ -5880,6 +7999,7 @@ export namespace Prisma {
     location?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    interactions?: InteractionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectsInput = {
@@ -5890,6 +8010,7 @@ export namespace Prisma {
     location?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    interactions?: InteractionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ClientUpsertWithoutProjectsInput = {
@@ -5911,6 +8032,7 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
+    interactions?: InteractionUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutProjectsInput = {
@@ -5922,6 +8044,201 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
+    interactions?: InteractionUncheckedUpdateManyWithoutClientNestedInput
+  }
+
+  export type InteractionUpsertWithWhereUniqueWithoutProjectInput = {
+    where: InteractionWhereUniqueInput
+    update: XOR<InteractionUpdateWithoutProjectInput, InteractionUncheckedUpdateWithoutProjectInput>
+    create: XOR<InteractionCreateWithoutProjectInput, InteractionUncheckedCreateWithoutProjectInput>
+  }
+
+  export type InteractionUpdateWithWhereUniqueWithoutProjectInput = {
+    where: InteractionWhereUniqueInput
+    data: XOR<InteractionUpdateWithoutProjectInput, InteractionUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type InteractionUpdateManyWithWhereWithoutProjectInput = {
+    where: InteractionScalarWhereInput
+    data: XOR<InteractionUpdateManyMutationInput, InteractionUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type UserCreateWithoutInteractionsInput = {
+    name: string
+    email: string
+    phone: string
+    location: string
+    password: string
+    createdAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutInteractionsInput = {
+    id?: number
+    name: string
+    email: string
+    phone: string
+    location: string
+    password: string
+    createdAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutInteractionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInteractionsInput, UserUncheckedCreateWithoutInteractionsInput>
+  }
+
+  export type ClientCreateWithoutInteractionsInput = {
+    name: string
+    phone: string
+    email: string
+    company?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    userId: number
+    projects?: ProjectCreateNestedManyWithoutClientInput
+  }
+
+  export type ClientUncheckedCreateWithoutInteractionsInput = {
+    id?: number
+    name: string
+    phone: string
+    email: string
+    company?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    userId: number
+    projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
+  }
+
+  export type ClientCreateOrConnectWithoutInteractionsInput = {
+    where: ClientWhereUniqueInput
+    create: XOR<ClientCreateWithoutInteractionsInput, ClientUncheckedCreateWithoutInteractionsInput>
+  }
+
+  export type ProjectCreateWithoutInteractionsInput = {
+    title: string
+    budget: number
+    deadline: Date | string
+    status: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutProjectsInput
+    client: ClientCreateNestedOneWithoutProjectsInput
+  }
+
+  export type ProjectUncheckedCreateWithoutInteractionsInput = {
+    id?: number
+    title: string
+    budget: number
+    deadline: Date | string
+    status: string
+    createdAt?: Date | string
+    userId: number
+    clientId: number
+  }
+
+  export type ProjectCreateOrConnectWithoutInteractionsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutInteractionsInput, ProjectUncheckedCreateWithoutInteractionsInput>
+  }
+
+  export type UserUpsertWithoutInteractionsInput = {
+    update: XOR<UserUpdateWithoutInteractionsInput, UserUncheckedUpdateWithoutInteractionsInput>
+    create: XOR<UserCreateWithoutInteractionsInput, UserUncheckedCreateWithoutInteractionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInteractionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInteractionsInput, UserUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type UserUpdateWithoutInteractionsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInteractionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ClientUpsertWithoutInteractionsInput = {
+    update: XOR<ClientUpdateWithoutInteractionsInput, ClientUncheckedUpdateWithoutInteractionsInput>
+    create: XOR<ClientCreateWithoutInteractionsInput, ClientUncheckedCreateWithoutInteractionsInput>
+    where?: ClientWhereInput
+  }
+
+  export type ClientUpdateToOneWithWhereWithoutInteractionsInput = {
+    where?: ClientWhereInput
+    data: XOR<ClientUpdateWithoutInteractionsInput, ClientUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type ClientUpdateWithoutInteractionsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    projects?: ProjectUpdateManyWithoutClientNestedInput
+  }
+
+  export type ClientUncheckedUpdateWithoutInteractionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
+  }
+
+  export type ProjectUpsertWithoutInteractionsInput = {
+    update: XOR<ProjectUpdateWithoutInteractionsInput, ProjectUncheckedUpdateWithoutInteractionsInput>
+    create: XOR<ProjectCreateWithoutInteractionsInput, ProjectUncheckedCreateWithoutInteractionsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutInteractionsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutInteractionsInput, ProjectUncheckedUpdateWithoutInteractionsInput>
+  }
+
+  export type ProjectUpdateWithoutInteractionsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    budget?: FloatFieldUpdateOperationsInput | number
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    client?: ClientUpdateOneRequiredWithoutProjectsNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutInteractionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    budget?: FloatFieldUpdateOperationsInput | number
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    clientId?: IntFieldUpdateOperationsInput | number
   }
 
   export type ProjectCreateManyUserInput = {
@@ -5934,6 +8251,16 @@ export namespace Prisma {
     clientId: number
   }
 
+  export type InteractionCreateManyUserInput = {
+    id?: number
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    clientId?: number | null
+    projectId?: number | null
+  }
+
   export type ProjectUpdateWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
     budget?: FloatFieldUpdateOperationsInput | number
@@ -5941,6 +8268,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     client?: ClientUpdateOneRequiredWithoutProjectsNestedInput
+    interactions?: InteractionUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutUserInput = {
@@ -5951,6 +8279,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientId?: IntFieldUpdateOperationsInput | number
+    interactions?: InteractionUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutUserInput = {
@@ -5963,6 +8292,35 @@ export namespace Prisma {
     clientId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type InteractionUpdateWithoutUserInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    client?: ClientUpdateOneWithoutInteractionsNestedInput
+    project?: ProjectUpdateOneWithoutInteractionsNestedInput
+  }
+
+  export type InteractionUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientId?: NullableIntFieldUpdateOperationsInput | number | null
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type InteractionUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientId?: NullableIntFieldUpdateOperationsInput | number | null
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
   export type ProjectCreateManyClientInput = {
     id?: number
     title: string
@@ -5973,6 +8331,16 @@ export namespace Prisma {
     userId: number
   }
 
+  export type InteractionCreateManyClientInput = {
+    id?: number
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    userId: number
+    projectId?: number | null
+  }
+
   export type ProjectUpdateWithoutClientInput = {
     title?: StringFieldUpdateOperationsInput | string
     budget?: FloatFieldUpdateOperationsInput | number
@@ -5980,6 +8348,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    interactions?: InteractionUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutClientInput = {
@@ -5990,6 +8359,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
+    interactions?: InteractionUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutClientInput = {
@@ -6000,6 +8370,74 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type InteractionUpdateWithoutClientInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInteractionsNestedInput
+    project?: ProjectUpdateOneWithoutInteractionsNestedInput
+  }
+
+  export type InteractionUncheckedUpdateWithoutClientInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type InteractionUncheckedUpdateManyWithoutClientInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type InteractionCreateManyProjectInput = {
+    id?: number
+    date: Date | string
+    type: $Enums.InteractionType
+    notes: string
+    createdAt?: Date | string
+    userId: number
+    clientId?: number | null
+  }
+
+  export type InteractionUpdateWithoutProjectInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInteractionsNestedInput
+    client?: ClientUpdateOneWithoutInteractionsNestedInput
+  }
+
+  export type InteractionUncheckedUpdateWithoutProjectInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    clientId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type InteractionUncheckedUpdateManyWithoutProjectInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumInteractionTypeFieldUpdateOperationsInput | $Enums.InteractionType
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    clientId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
 
