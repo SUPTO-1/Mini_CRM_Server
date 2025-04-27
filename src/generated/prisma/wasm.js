@@ -160,6 +160,18 @@ exports.Prisma.InteractionScalarFieldEnum = {
   projectId: 'projectId'
 };
 
+exports.Prisma.ReminderScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  dueDate: 'dueDate',
+  notes: 'notes',
+  status: 'status',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  clientId: 'clientId',
+  projectId: 'projectId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -180,11 +192,17 @@ exports.InteractionType = exports.$Enums.InteractionType = {
   EMAIL: 'EMAIL'
 };
 
+exports.ReminderStatus = exports.$Enums.ReminderStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Client: 'Client',
   Project: 'Project',
-  Interaction: 'Interaction'
+  Interaction: 'Interaction',
+  Reminder: 'Reminder'
 };
 
 /**
