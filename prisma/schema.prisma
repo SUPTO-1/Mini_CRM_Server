@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  //output   = "../src/generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -15,22 +15,40 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String
-  email String  @unique
-  phone String
-  location String
-  password String
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  phone     String
+  location  String
+  password  String
   createdAt DateTime @default(now())
+
+  projects Project[]
 }
 
 model Client {
-  id         Int      @id @default(autoincrement())
-  name       String
-  phone      String
-  email      String   @unique
-  company    String?
-  notes      String?
-  createdAt  DateTime @default(now())
-  userId     Int
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String   @unique
+  company   String?
+  notes     String?
+  createdAt DateTime @default(now())
+  userId    Int
+
+  projects Project[]
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255)
+  budget    Float
+  deadline  DateTime
+  status    String   @db.VarChar(50)
+  createdAt DateTime @default(now())
+  userId    Int
+  clientId  Int
+
+  user   User   @relation(fields: [userId], references: [id])
+  client Client @relation(fields: [clientId], references: [id])
 }

@@ -134,7 +134,19 @@ exports.Prisma.ClientScalarFieldEnum = {
   email: 'email',
   company: 'company',
   notes: 'notes',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.ProjectScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  budget: 'budget',
+  deadline: 'deadline',
+  status: 'status',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  clientId: 'clientId'
 };
 
 exports.Prisma.SortOrder = {
@@ -155,7 +167,8 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Client: 'Client'
+  Client: 'Client',
+  Project: 'Project'
 };
 
 /**
